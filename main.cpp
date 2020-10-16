@@ -3,6 +3,14 @@
 #include <math.h>
 using namespace std;
 
+// function prototype
+void voidFunction();
+int funcWithParams(int amount, int workHours);
+// parameters with pass by reference
+int funcTotal(float& total);
+string funcOptParams(string value = "Default Value");
+string funcWithArrays(string names[]);
+
 int main()
 {
     // data representation
@@ -80,5 +88,40 @@ int main()
         cin >> userPassword;
     } while(correctPassword != userPassword);
 
+    // functions
+    // cctype functions: isdigit(char), isalpha(char), islower(char)
+    // sctdlib: rand(), srand(int)
+    cout << "Password Length: " << correctPassword.length() << endl;
+    voidFunction();
+    cout << "Salary: " << funcWithParams(1, 10) << endl;
+    float addressTotal = 0;
+    cout << "Total: " << funcTotal(addressTotal) << ", " << addressTotal << endl;
+    cout << "Function with default param value: " << funcOptParams() << endl;
+    string names[2] = {"Name 1", "Name 2"};
+    cout << funcWithArrays(names) << endl;
+
     return 0;
+}
+
+// function header
+void voidFunction() {
+    cout << "Void function call";
+}
+
+int funcWithParams(int amount, int workHours) {
+    return amount * workHours;
+}
+
+int funcTotal(float& total) {
+    total = total + 1;
+    return total;
+}
+
+// function with default value in param
+string funcOptParams(string value) {
+    return value;
+}
+
+string funcWithArrays(string names[]) {
+    return names[0];
 }
