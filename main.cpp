@@ -1,18 +1,66 @@
 #include "main.h"
 #include <iostream>
 #include <math.h>
+#include <fstream>
+
 using namespace std;
 
 // function prototype
 void voidFunction();
+
 int funcWithParams(int amount, int workHours);
+
 // parameters with pass by reference
-int funcTotal(float& total);
+int funcTotal(float &total);
+
 string funcOptParams(string value = "Default Value");
+
 string funcWithArrays(string names[]);
 
-int main()
-{
+struct students {
+    string name;
+    int age;
+};
+
+class BankAccount {
+private:
+    float balance;
+
+public:
+    BankAccount();
+
+    void Deposit(float);
+
+    void WithDraw();
+
+    float getBalance();
+};
+
+void BankAccount::WithDraw() {
+    balance = 0;
+}
+
+float BankAccount::getBalance() {
+    return balance;
+}
+
+void BankAccount::Deposit(float dep) {
+    balance = balance + dep;
+}
+
+BankAccount::BankAccount() {
+    cout << "Constructor" << endl;
+}
+
+struct Node {
+    int data;
+    Node *link;
+};
+typedef Node *nodePtr;
+
+void insert(nodePtr &head, int data);
+
+int main() {
     // data representation
     // declare variables
     const int c = 3;                // Constants must be initialized, cannot assign to
@@ -86,7 +134,7 @@ int main()
     do {
         cout << "Your Password: " << endl;
         cin >> userPassword;
-    } while(correctPassword != userPassword);
+    } while (correctPassword != userPassword);
 
     // functions
     // cctype functions: isdigit(char), isalpha(char), islower(char)
@@ -100,6 +148,65 @@ int main()
     string names[2] = {"Name 1", "Name 2"};
     cout << funcWithArrays(names) << endl;
 
+    // file open
+    ifstream inputFileA;
+    ifstream inputFileB;
+    string passPhrase;
+    inputFileA.open("sample.txt");
+    if (!inputFileA.fail()) {
+        while (inputFileA >> passPhrase) {
+            cout << "The phrase is: " << passPhrase << endl;
+            cout << "What is your answer?";
+        }
+    }
+    inputFileA.close();
+
+    // file content append
+    // remove ios::app overwrite (Seek to end before each write.)
+    ofstream outputFileA;
+    outputFileA.open("sample.txt", ios::app);
+    outputFileA << "Write" << 200 << endl;
+    outputFileA.close();
+
+    // data types
+    students student1;
+    student1.name = "Student 1";
+    student1.age = 10;
+    cout << student1.name << student1.age << endl;
+    students classRoom[100];
+    classRoom[0].name = "Student 2";
+    classRoom[1].name = "Student 3";
+    cout << classRoom[0].name << ", " << classRoom[1].name << endl;
+
+    // class
+    BankAccount checking;
+    BankAccount savings;
+    checking.Deposit(100);
+    cout << "Checking: " << checking.getBalance() << endl;
+
+    // pointers
+    int v1 = 0;
+    int *p1;
+    p1 = &v1;    // point to v1 or assign address of pointer, holds the address v1
+    *p1 = 42;    // change value of v1
+    cout << "v1: " << v1 << " p1: " << *p1 << endl;
+
+    // linked list
+    nodePtr head;
+    head = new Node;
+    head->data = 20;
+    head->link = NULL;
+
+    insert (head, 30);
+
+    nodePtr tmp;
+    tmp = head;
+
+    while (tmp != NULL) {
+        cout << tmp->data << endl;
+        tmp = tmp->link;
+    }
+
     return 0;
 }
 
@@ -112,7 +219,7 @@ int funcWithParams(int amount, int workHours) {
     return amount * workHours;
 }
 
-int funcTotal(float& total) {
+int funcTotal(float &total) {
     total = total + 1;
     return total;
 }
@@ -125,3 +232,15 @@ string funcOptParams(string value) {
 string funcWithArrays(string names[]) {
     return names[0];
 }
+
+///////////////////////////////////////////////////
+// Function to create a new node, and add it to the front of the list
+///////////////////////////////////////////////////
+void insert(nodePtr& head, int data) {
+    nodePtr tempPtr;
+    tempPtr = new Node;
+    tempPtr->data = data;
+    tempPtr->link = head;
+    head = tempPtr;
+}
+
