@@ -1,30 +1,30 @@
 #include <iostream>
 #include <vector>
-// using std::cout;
-// using std::vector;
 
-// TODO: Add PrintBoard function here.
-void PrintBoard(const std::vector<std::vector<int>> board)
-{
-    std::cout << "\n";
-    for (auto v : board)
-    {
-        for (int i : v)
-        {
-            std::cout << i;
+using namespace std;
+
+// create a function
+void PrintBoard(const vector<vector<int>>& v) {
+    for (auto& r : v) {
+        for (int d : r) {
+            cout << d << ", ";
         }
-        std::cout << "\n";
+
+        cout << endl;
     }
 }
 
-int main()
-{
-    std::vector<std::vector<int>> board{{0, 1, 0, 0, 0, 0},
-                                        {0, 1, 0, 0, 0, 0},
-                                        {0, 1, 0, 0, 0, 0},
-                                        {0, 1, 0, 0, 0, 0},
-                                        {0, 0, 0, 0, 1, 0}};
-    // TODO: Call PrintBoard function here.
+int main() {
+    vector<vector<int>> board = {
+            {0, 1, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 0}
+    };
+
+    // display board
     PrintBoard(board);
+
     return 0;
 }
