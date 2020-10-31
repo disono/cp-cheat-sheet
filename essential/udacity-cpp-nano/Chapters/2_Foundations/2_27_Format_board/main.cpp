@@ -1,75 +1,67 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
 #include <vector>
+#include <sstream>
+#include <fstream>
 
-enum class State
-{
-    kEmpty,
-    kObstacle
-};
+using namespace std;
 
-std::vector<int> ParseLine(std::string line)
-{
-    std::istringstream sline(line);
+enum boardType {zero = 0, one = 1};
+
+vector<int> ParseLine(string line) {
+    istringstream aStream(line);
     int n;
     char c;
-    std::vector<int> row;
-    while (sline >> n >> c)
-    {
+    vector<int> row;
+
+    while (aStream >> n >> c) {
         row.push_back(n);
     }
+
     return row;
 }
 
-std::vector<std::vector<int>> ReadBoardFile(std::string path)
-{
-    std::vector<std::vector<int>> board{};
-    std::ifstream myfile(path);
-    if (myfile)
-    {
-        std::string line;
-        while (getline(myfile, line))
-        {
-            std::vector<int> row = ParseLine(line);
-            board.push_back(row);
+vector<vector<int>> ReadBoardFile(string filePath) {
+    string value;
+    ifstream boardFile;
+    boardFile.open(filePath);
+    string content;
+    vector<vector<int>> vt(5);
+    int i = 0;
+
+    if (!boardFile.fail()) {
+        while (boardFile >> content) {
+            vt[i] = ParseLine(content);
+            i++;
         }
+    } else {
+        cout << "Unable to open file.";
     }
-    return board;
+
+    boardFile.close();
+
+    return vt;
 }
 
-// TODO: Create the CellString function here,
-// using the following return strings:
-// "⛰️   "
-// "0   "
-
-std::string CellString(State cell)
-{
-    switch (cell)
-    {
-    case State::kObstacle:
-        return "⛰️  ";
-    default:
-        return "0  ";
-    }
-}
-
-void PrintBoard(const std::vector<std::vector<int>> board)
-{
-    for (auto v : board)
-    {
-        for (int i : v)
-        {
-            std::cout << i;
+void printBoard(const vector<vector<int>>& vt) {
+    for (const auto& r : vt) {
+        for (auto v : r) {
+            if (boardType::one == v) {
+                cout << "⛰" << " ";
+            } else {
+                cout << v << " ";
+            }
         }
-        std::cout << "\n";
+
+        cout << endl;
     }
 }
 
-int main()
-{
-    auto board = ReadBoardFile("../files/1.board");
-    PrintBoard(board);
+int main() {
+    cout << "1) Enums" << endl;
+    enum season { spring = 3, summer = 4, autumn = 8, winter = 12 };
+    cout << season::autumn << endl;
+
+    cout << "2) Poop" << endl;
+    printBoard(ReadBoardFile("/mnt/Works/github.com/cpp-cheat-sheet/essential/board.txt"));
     return 0;
 }
