@@ -61,6 +61,12 @@ int main() {
     enum season { spring = 3, summer = 4, autumn = 8, winter = 12 };
     cout << season::autumn << endl;
 
+    cout << "2) Demo enums";
+    enum week{Mon, Tue, Wed, Thur, Fri, Sat, Sun};
+    enum week day;
+    day = Wed;
+    printf("%d", day);
+
     cout << "2) Poop" << endl;
     printBoard(ReadBoardFile("/mnt/Works/github.com/cpp-cheat-sheet/essential/board.txt"));
     return 0;
