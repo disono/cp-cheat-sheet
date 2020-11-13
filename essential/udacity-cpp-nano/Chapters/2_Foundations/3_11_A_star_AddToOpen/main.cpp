@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 using std::abs;
 using std::cout;
 using std::ifstream;
@@ -10,107 +11,95 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State
-{
+enum class State {
     kEmpty,
     kObstacle,
     kClosed
 };
 
-vector<State> ParseLine(string line)
-{
+vector<State> ParseLine(string line) {
     istringstream sline(line);
     int n;
     char c;
     vector<State> row;
-    while (sline >> n >> c && c == ',')
-    {
-        if (n == 0)
-        {
+
+    while (sline >> n >> c && c == ',') {
+        if (n == 0) {
             row.push_back(State::kEmpty);
-        }
-        else
-        {
+        } else {
             row.push_back(State::kObstacle);
         }
     }
+
     return row;
 }
 
-vector<vector<State>> ReadBoardFile(string path)
-{
+vector<vector<State>> ReadBoardFile(string path) {
     ifstream myfile(path);
     vector<vector<State>> board{};
-    if (myfile)
-    {
+
+    if (myfile) {
         string line;
-        while (getline(myfile, line))
-        {
+        while (getline(myfile, line)) {
             vector<State> row = ParseLine(line);
             board.push_back(row);
         }
     }
+
     return board;
 }
 
-// Calculate the manhattan distance
-int Heuristic(int x1, int y1, int x2, int y2)
-{
-    return abs(x2 - x1) + abs(y2 - y1);
-}
+// TODO: Write the Search function stub here.
 
-// TODO: Write the AddToOpen function here.
-void AddToOpen(int x, int y, int g, int h, std::vector<std::vector<int>> &openNode, std::vector<std::vector<State>> &grid)
-{
-    std::vector<int> node{x, y, g, h};
-    openNode.push_back(node);
-    grid[x][y] = State::kClosed;
-}
-
-/** 
- * Implementation of A* search algorithm
- */
-vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2])
-{
-
-    cout << "No path found!"
-         << "\n";
-    return std::vector<vector<State>>{};
-}
-
-string CellString(State cell)
-{
-    switch (cell)
-    {
-    case State::kObstacle:
-        return "⛰️   ";
-    default:
-        return "0   ";
+string CellString(State cell) {
+    switch (cell) {
+        case State::kObstacle:
+            return "⛰️   ";
+        default:
+            return "0   ";
     }
 }
 
-void PrintBoard(const vector<vector<State>> board)
-{
-    for (int i = 0; i < board.size(); i++)
-    {
-        for (int j = 0; j < board[i].size(); j++)
-        {
+void PrintBoard(const vector<vector<State>> board) {
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].size(); j++) {
             cout << CellString(board[i][j]);
         }
+
         cout << "\n";
     }
 }
 
-#include "test.cpp"
+std::vector<std::vector<State>> Search(std::vector<std::vector<State>> board, int init[2], int goal[2]) {
+    std::vector<std::vector<State>> path{};
+    std::cout << "No path found! \n";
+    return path;
+}
 
-int main()
-{
-    int init[2]{0, 0};
-    int goal[2]{4, 5};
-    auto board = ReadBoardFile("../files/1.board");
-    auto solution = Search(board, init, goal);
+// TODO: Write the Heuristic function here.
+
+/**
+ * Implementation of A* search algorithm
+ */
+int Heuristic(int x1, int y1, int x2, int y2) {
+    return (abs(x2 - x1) + abs(y2 - y1));
+}
+
+// TODO: Write the AddToOpen function here.
+void addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNode, vector<vector<State>> &grid) {
+    vector<int> node{x, y, g, h};
+    openNode.push_back(node);
+    grid[x][y] = State::kClosed;
+}
+
+int main() {
+    // TODO: Declare "init" and "goal" arrays with values {0, 0} and {4, 5} respectively.
+    int init[2]{0, 0}, goal[2]{4, 5};
+    auto board = ReadBoardFile("/mnt/Works/github.com/cpp-cheat-sheet/essential/board.txt");
+
+    // TODO: Call Search with "board", "init", and "goal". Store the results in the variable "solution".
+    std::vector<std::vector<State>> solution = Search(board, init, goal);
+
+    // TODO: Change the following line to pass "solution" to PrintBoard.
     PrintBoard(solution);
-    // Tests
-    TestHeuristic();
-    TestAddToOpen();
 }
